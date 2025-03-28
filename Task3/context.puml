@@ -1,0 +1,23 @@
+@startuml context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Диаграмма Контекста
+
+Person_Ext(owner, "Собственник", "Житель, использующий мобильное приложение")
+
+System_Boundary(propdev_c, "Система PropDevelopment") {
+    System(propdev_sys, "PropDevelopment", "Backend компании")
+}
+
+System_Ext(partner_platform, "Платформа Умного Дома Партнера", "Внешняя система, предоставляющая API для управления устройствами и получения событий")
+System_Ext(intercom, "Интеллектуальный Домофон", "Физическое устройство, управляется Платформой Партнера")
+System_Ext(barrier, "Интеллектуальный Шлагбаум", "Физическое устройство, управляется Платформой Партнера")
+
+Rel(owner, propdev_sys, "Взаимодействие с PropDevelopment", "https")
+Rel(propdev_sys, partner_platform, "Управляет устройствами", "https")
+Rel(partner_platform, intercom, "Управляет устройствами, получает данные", "tcp")
+Rel(partner_platform, barrier, "Управляет устройствами, получает данные", "tcp")
+
+' Связи устройств с пользователями опосредованы через платформы
+' Rel_Back(propdev_sys, owner, "Отправляет уведомления о событиях") ' Можно добавить, если нужно
+@enduml
